@@ -9,10 +9,11 @@ public class RailsInfo {
 	private static final int SEARCH_RADIUS_X = 6;
 	private static final int SEARCH_RADIUS_Y = 5;
 	private static final int SEARCH_RADIUS_Z = 6;
+	private static final int FLAG_HAS_FLAT = 0x1;
+	private static final int FLAG_HAS_ONSLOPE = 0x2;
+	private static final int FLAG_HAS_CURVE = 0x4;
 	
-	private boolean hasOnSlope = false;
-	private boolean hasCurve = false;
-	private boolean hasFlat = false;
+	private int flags = 0;
 	
 	private RailsInfo(){/* Nothing to do. */}
 	
@@ -30,14 +31,17 @@ public class RailsInfo {
 							case NORTH_WEST:
 							case SOUTH_EAST:
 							case SOUTH_WEST:
-								ri.hasCurve = true;
+								ri.flags = ri.flags | FLAG_HAS_CURVE;
+								break;
 							case ASCENDING_NORTH:
 							case ASCENDING_SOUTH:
 							case ASCENDING_EAST:
 							case ASCENDING_WEST:
-								ri.hasOnSlope = true;
+								ri.flags = ri.flags | FLAG_HAS_ONSLOPE;
+								break;
 							default:
-								ri.hasFlat = true;
+								ri.flags = ri.flags | FLAG_HAS_FLAT;
+								break;
 						}
 					}//End if
 				}//Next k
@@ -47,18 +51,18 @@ public class RailsInfo {
 	}//End public static RailsInfo getRailsInfoAroundLocation(Location loc)
 	
 	public boolean isAtAccelerateableLoc(){
-		return !this.hasOnSlope && this.hasFlat ^ this.hasCurve;
+		return (Integer.bitCount(this.flags) == 1) & !this.hasOnSlope();
 	}//End public boolean hasSingleTypeRail()
 
 	public boolean hasOnSlope(){
-		return this.hasOnSlope;
+		return (this.flags & FLAG_HAS_ONSLOPE) > 0;
 	}//End getter
 	
 	public boolean hasCurve(){
-		return this.hasCurve;
+		return (this.flags & FLAG_HAS_CURVE) > 0;
 	}//End getter
 	
 	public boolean hasFlat(){
-		return this.hasFlat;
+		return (this.flags & FLAG_HAS_FLAT) > 0;
 	}//End getter
 }//End public class RailsInfo

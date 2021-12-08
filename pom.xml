@@ -6,7 +6,7 @@
 
   <groupId>net.cibmc.spigot.cib</groupId>
   <artifactId>CIBPlugin</artifactId>
-  <version>1.18.0.0</version>
+  <version>1.18.0.1</version>
   <packaging>jar</packaging>
 
   <properties>

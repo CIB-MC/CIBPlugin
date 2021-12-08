@@ -47,11 +47,7 @@ public class SyncAMC extends Thread {//Automatic Minecart Control
 					mc.remove();
 					plugin.minecartBox.remove(entry.getKey());
 				}else if((!(mci.getSpeed().equals(MinecartSpeed.SPEED_WAIT))) && (!(mci.getSpeed().equals(MinecartSpeed.SPEED_RIDING))) && (!(mci.getSpeed().equals(MinecartSpeed.SPEED_ARRIVING))) && (!(mci.getSpeed().equals(MinecartSpeed.SPEED_ARRIVED))) && (!(mci.getSpeed().equals(MinecartSpeed.SPEED_EXITMC))) && (!(ri.isAtAccelerateableLoc()))){
-					if(ri.hasOnSlope()){
-						mci.setSpeed(MinecartSpeed.SPEED_NEAR_SLOPE);
-					}else if(ri.hasCurve()){
-						mci.setSpeed(MinecartSpeed.SPEED_NEAR_CURVE);
-					}//End if
+					mci.setSpeed(MinecartSpeed.SPEED_NEAR_SLOPE);
 				}else{
 					switch(mci.getSpeed()){
 					case SPEED_EXITMC:
