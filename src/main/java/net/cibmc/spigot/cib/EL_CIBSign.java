@@ -24,6 +24,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.block.BlockState;
 
 public class EL_CIBSign implements Listener{
 	CIBPlugin plugin;
@@ -86,27 +87,11 @@ public class EL_CIBSign implements Listener{
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event){
 		if(!(event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
-		
-		Material mat = event.getClickedBlock().getState().getBlock().getType();
-		switch(mat) {
-			case ACACIA_WALL_SIGN:
-			case BIRCH_WALL_SIGN:
-			case DARK_OAK_WALL_SIGN:
-			case JUNGLE_WALL_SIGN:
-			case OAK_WALL_SIGN:
-			case SPRUCE_WALL_SIGN:
-			case ACACIA_SIGN:
-			case BIRCH_SIGN:
-			case DARK_OAK_SIGN:
-			case JUNGLE_SIGN:
-			case OAK_SIGN:
-			case SPRUCE_SIGN:
-				break;
-			default:
-				return;
-		}
-		
-		Sign s = (Sign)event.getClickedBlock().getState();
+
+		BlockState bs = event.getClickedBlock().getState();
+		if (!(bs instanceof Sign)) return;
+
+		Sign s = (Sign)bs;
 		if(!s.getLine(0).equals(CIBCommon.CIB_SIGN_STRING)) return;
 		if(event.getPlayer().getVehicle() != null) return;
 		

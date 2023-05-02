@@ -15,6 +15,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import org.bukkit.block.BlockState;
 
 public class CIBCommon {
 	public static final String CIB_SIGN_STRING = "[CIB_MC]";
@@ -38,7 +39,7 @@ public class CIBCommon {
 	
 	private CIBCommon(){
 		throw new AssertionError();
-	}//End default constructor killer
+	}
 	
 	public static Minecart getMinecartEntity(World world, int entityID){
 		if(world == null) return null;
@@ -48,10 +49,10 @@ public class CIBCommon {
 			Entity ent;
 			if((ent = it.next()).getEntityId() == entityID){
 				if(ent instanceof Minecart)return (Minecart)ent;
-			}//End if
-		}//End if
+			}
+		}
 		return null;
-	}//End public static Minecart getMinecartEntity(World world, int entityID)
+	}
 	
 	public static boolean isThereCurveRailNearDatnum(Location datnum, int radius){
 		for(int i = radius * -1; i <= radius; i++){
@@ -70,12 +71,12 @@ public class CIBCommon {
 							default:
 								break;
 						}
-					}//End if
-				}//Next k
-			}//Next j
-		}//Next i
+					}
+				}
+			}
+		}
 		return false;
-	}//End public static Location isThereSpecifiedBlockNearHere
+	}
 	
 	public static boolean isThereSlopeRailNearDatnum(Location datnum, int radius){
 		for(int i = radius * -1; i <= radius; i++){
@@ -94,65 +95,48 @@ public class CIBCommon {
 							default:
 								break;
 						}
-					}//End if
-				}//Next k
-			}//Next j
-		}//Next i
+					}
+				}
+			}
+		}
 		return false;
-	}//End public static Location isThereSpecifiedBlockNearHere
+	}
 	
 	public static Location getSafetyTpLoc(Location datnum, CIBPlugin plugin){
 		for(int i = TP_SEARCH_RADIUS_Y; i >= TP_SEARCH_RADIUS_Y * -1; i--){
 			for(int j = TP_SEARCH_RADIUS_X; j >= TP_SEARCH_RADIUS_X * -1; j--){
 				for(int k = TP_SEARCH_RADIUS_Z; k >= TP_SEARCH_RADIUS_Z * -1; k--){
-					//Block tmpBlock = datnum.getWorld().getBlockAt(datnum.getBlockX() + j , datnum.getBlockY() + i, datnum.getBlockZ() + k);
 					Block tmpBlock = datnum.getBlock().getLocation().add(j, i, k).getBlock();
 					if(isRideableBlock(tmpBlock)){
 						if(tmpBlock.getLocation().add(0,1,0).getBlock().isEmpty() && tmpBlock.getLocation().add(0,2,0).getBlock().isEmpty() && tmpBlock.getLocation().add(0,3,0).getBlock().isEmpty()){
 							Location resultLoc = tmpBlock.getLocation().add(0,1,0);
 							return resultLoc;
-						}//End if
-					}//End if
-				}//Next k
-			}//Next j
-		}//Next i
-		//System.out.println("===== Search done. =====");
+						}
+					}
+				}
+			}
+		}
 		return null;
-	}//End public static Location getSafetyTpLoc(Location datnum)
+	}
 	
 	public static boolean isCIBSign(Block b){
-		Material mat = b.getState().getBlock().getType();
-		switch(mat) {
-			case ACACIA_WALL_SIGN:
-			case BIRCH_WALL_SIGN:
-			case DARK_OAK_WALL_SIGN:
-			case JUNGLE_WALL_SIGN:
-			case OAK_WALL_SIGN:
-			case SPRUCE_WALL_SIGN:
-			case ACACIA_SIGN:
-			case BIRCH_SIGN:
-			case DARK_OAK_SIGN:
-			case JUNGLE_SIGN:
-			case OAK_SIGN:
-			case SPRUCE_SIGN:
-				break;
-			default:
-				return false;
-		}
-		Sign s = (Sign)b.getState();
+		BlockState bs = b.getState();
+		if (!(bs instanceof Sign)) return false;
+
+		Sign s = (Sign)bs;
 		if(s.getLine(0).equals(CIB_SIGN_STRING)) return true;
 		return false;
-	}//End public static boolean isCIBSign(Block b)
+	}
 	
 	public static boolean isPlayerRideOnMinecart(Player pl){
 		if(pl.isInsideVehicle()){
 			Entity veh = pl.getVehicle();
 			if(veh.getType() == EntityType.MINECART){
 				return true;
-			}//End if level 2
-		}//End if level 1
+			}
+		}
 		return false;
-	}//End public static boolean isPlayerRideOnHorse
+	}
 	
 	public static boolean isRideableBlock(Block b){
 		if(b.isEmpty()) return false;
@@ -171,5 +155,5 @@ public class CIBCommon {
 		if(mat.equals(Material.DARK_OAK_FENCE)) return false;
 		
 		return true;
-	}//End public static boolean isNonRideableBlock(Block b)
-}//End public class CIBCommon
+	}
+}
