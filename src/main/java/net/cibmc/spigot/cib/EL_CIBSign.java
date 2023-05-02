@@ -39,7 +39,7 @@ public class EL_CIBSign implements Listener{
 			event.getBlock().breakNaturally();
 			event.getPlayer().sendMessage(ChatColor.RED + "[CIB] Wait a minute! But you don't have permission to build a station!");
 			return;
-		}//End if
+		}
 		event.setLine(0, event.getLine(0).toUpperCase());
 		
 		Material itUnderSign = event.getPlayer().getWorld().getBlockAt(event.getBlock().getLocation().add(0, -1, 0)).getState().getBlock().getType();
@@ -54,16 +54,16 @@ public class EL_CIBSign implements Listener{
 			event.getBlock().breakNaturally();
 			event.getPlayer().sendMessage(ChatColor.RED + "[CIB] Hey Builder! You specified wrong direction!");
 			return;
-		}//End if
+		}
 		event.setLine(1, line1.toUpperCase());
 		event.setLine(2, "------------");
 		if(line1.equalsIgnoreCase(CIBCommon.STR_TEREMINAL)){
-			event.setLine(3, ChatColor.DARK_RED + "降車専用");
+			event.setLine(3, ChatColor.DARK_RED + "Terminal");
 		}else{
-			event.setLine(3, ChatColor.GREEN + "乗車可能");
+			event.setLine(3, ChatColor.GREEN + "Station");
 		}
 		event.getPlayer().sendMessage(ChatColor.GREEN + "[CIB] You placed CIB Minecart Station Sign!");
-	}//End public void onSignChange(SignChangeEvent event)
+	}
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event){
@@ -72,16 +72,16 @@ public class EL_CIBSign implements Listener{
 		if(!event.getPlayer().hasPermission("cib.stationbuilder")){
 			event.setCancelled(true);
 			event.getPlayer().sendMessage(ChatColor.RED + "[CIB] " + ChatColor.WHITE + "You don't have permission to break a station!");
-		}//End if
-	}//End public void onBlockBreak(BlockBreakEvent event)
+		}
+	}
 	
 	@EventHandler
 	public void onBlockPhysicsEvent(BlockPhysicsEvent event){
 		Block objBlock = event.getBlock();
 		if(CIBCommon.isCIBSign(objBlock)){
 			event.setCancelled(true);
-		}//End if
-	}//End public void onBlockPhysicsEvent(BlockPhysicsEvent event)
+		}
+	}
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event){
@@ -114,12 +114,12 @@ public class EL_CIBSign implements Listener{
 		if(mayBeRailBlock.isBlockPowered()){
 			event.getPlayer().sendMessage(ChatColor.RED + "[CIB] " + ChatColor.WHITE + "ほかのトロッコが停車中です。しばらくお待ちください。");
 			return;
-		}//End if
+		}
 		
 		if(s.getLine(1).equals(CIBCommon.STR_TEREMINAL)){
 			event.getPlayer().sendMessage(ChatColor.RED + "[CIB] " + ChatColor.WHITE + "こちらは降車専用です。ご乗車にはなれません。");
 			return;
-		}//End if
+		}
 		
 		Location locRail = event.getClickedBlock().getLocation().add(0.5,-1,0.5);
 		Minecart entMC = (Minecart)event.getPlayer().getWorld().spawnEntity(locRail, EntityType.MINECART);
@@ -131,28 +131,22 @@ public class EL_CIBSign implements Listener{
 		mci.setSpeed(MinecartSpeed.SPEED_RIDING);
 		synchronized(plugin.minecartBox){
 			plugin.minecartBox.put(pl.getUniqueId().toString(), mci);
-		}//End sync
-	}//End public void onPlayerInteract(PlayerInteractEvent event)
+		}
+	}
 	
 	@EventHandler
 	public void onBlockRedstoneEvent(BlockRedstoneEvent event){
-		//plugin.getLogger().info("RS Event!");
 		if(event.getNewCurrent() == 0) return;
 		Block objBlock = event.getBlock();
 		Block mayBeCIBSign = objBlock.getLocation().add(0, 1, 0).getBlock();
-		//plugin.getLogger().info("MaybeCIBS_Block is " + mayBeCIBSign.getType().toString());
 		if(!CIBCommon.isCIBSign(mayBeCIBSign)) return;
-		//plugin.getLogger().info("It's CIB Sign!");
 		Collection<Entity> ents = objBlock.getWorld().getNearbyEntities(objBlock.getLocation(), 5, 5, 5);
 		if(ents.isEmpty()) return;
-		//plugin.getLogger().info("There is Entities!");
 		Iterator<Entity> entsIt = ents.iterator();
 		while(entsIt.hasNext()){
 			Entity ent = entsIt.next();
 			if(ent.getType() == EntityType.MINECART){
-				//plugin.getLogger().info("It's Minecart!");
 				Minecart mc = (Minecart)ent;
-				
 				synchronized(plugin.minecartBox){
 					Iterator<Entry<String, MinecartInfo>> it = plugin.minecartBox.entrySet().iterator();
 					while(it.hasNext()){
@@ -162,13 +156,13 @@ public class EL_CIBSign implements Listener{
 							if(!mci.startLoc.getBlock().getLocation().equals(mayBeCIBSign.getLocation())){
 								mci.startLoc = mayBeCIBSign.getLocation();
 								mci.setSpeed(MinecartSpeed.SPEED_ARRIVING);
-							}//End if
-						}//End if
-					}//Next
-				}//End synchronized(plugin.minecartBox)
-			}//End if
-		}//Next entsIt
-	}//End public void onBlockRedstoneEvent(BlockRedstoneEvent event)
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 	
 	@EventHandler
 	public void onVehicleExit(VehicleExitEvent event){
@@ -187,9 +181,9 @@ public class EL_CIBSign implements Listener{
 					}else{
 						mci.setSpeed(MinecartSpeed.SPEED_EXITMC);
 						event.setCancelled(true);
-					}//End if
-				}//End if
-			}//End sync
+					}
+				}
+			}
 		}
-	}//End public void onVehicleExit(VehicleExitEvent event)
-}//End public class EL_CIBSign implements Listener
+	}
+}
