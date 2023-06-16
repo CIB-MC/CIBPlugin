@@ -93,16 +93,17 @@ public class EL_CIBSign implements Listener{
 
 		Sign s = (Sign)bs;
 		if(!s.getLine(0).equals(CIBCommon.CIB_SIGN_STRING)) return;
+        event.setCancelled(true);
 		if(event.getPlayer().getVehicle() != null) return;
 		
 		Block mayBeRailBlock = event.getClickedBlock().getLocation().getBlock().getLocation().add(0, -2, 0).getBlock();
 		if(mayBeRailBlock.isBlockPowered()){
-			event.getPlayer().sendMessage(ChatColor.RED + "[CIB] " + ChatColor.WHITE + "ほかのトロッコが停車中です。しばらくお待ちください。");
+			event.getPlayer().sendMessage(ChatColor.RED + "[CIB] " + ChatColor.WHITE + "Please wait for a moment.");
 			return;
 		}
 		
 		if(s.getLine(1).equals(CIBCommon.STR_TEREMINAL)){
-			event.getPlayer().sendMessage(ChatColor.RED + "[CIB] " + ChatColor.WHITE + "こちらは降車専用です。ご乗車にはなれません。");
+			event.getPlayer().sendMessage(ChatColor.RED + "[CIB] " + ChatColor.WHITE + "Sorry, arrival only. You can't get on from here");
 			return;
 		}
 		

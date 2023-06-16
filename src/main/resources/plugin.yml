@@ -1,4 +1,4 @@
 main: net.cibmc.spigot.cib.CIBPlugin
 name: CIBPlugin
-version: 1.0_API1.19
+version: 1.2_API1.20
 api-version: 1.19

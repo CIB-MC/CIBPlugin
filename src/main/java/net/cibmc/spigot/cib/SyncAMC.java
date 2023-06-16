@@ -248,29 +248,7 @@ public class SyncAMC extends Thread {
 						break;
 					}
 				}
-				
-				if(!(mci.getSpeed().equals(MinecartSpeed.SPEED_WAIT))){
-					List<Entity> li = mc.getNearbyEntities(5, 5, 5);
-					Iterator<Entity> itE = li.iterator();
-					while(itE.hasNext()){
-						Entity entNear = itE.next();
-						if(!(entNear instanceof LivingEntity)){
-							continue;
-						}
-						if(entNear instanceof Player){
-							continue;
-						}
-						if(entNear instanceof AbstractHorse){
-							continue;
-						}
-						if(entNear instanceof Villager){
-							continue;
-						}
-						LivingEntity le = (LivingEntity)entNear;
-						le.remove();
-					}
-				}
-				
+
 				if(mc != null){
 					mc.setVelocity(mc.getVelocity().multiply(MULTIPLIER));
 					double distance = loc.distance(mci.formerLoc);
