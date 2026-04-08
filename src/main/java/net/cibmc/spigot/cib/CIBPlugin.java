@@ -19,16 +19,9 @@ public class CIBPlugin extends JavaPlugin {
 	@Override
 	public void onEnable(){
 		this.getLogger().info("====== Bonjour, Admin! ======");
-		this.getLogger().info("            [CIB]");
-		this.getLogger().info("          Compagnie");
-		this.getLogger().info("        internationale");
-		this.getLogger().info("         des berlines");
-		this.getLogger().info("====== Start initialize ======");
 		getServer().getPluginManager().registerEvents(new EL_CIBSign(this), this);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SyncAMC(this), AMC_TICK_INC, AMC_TICK_INC);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SyncMBNInc(this, MBN_TICK_INC), 5, MBN_TICK_INC);
-		this.getLogger().info("I won't struggle in the Database, Wow Wow.");
-		this.getLogger().info("====== End initialize ======");
 	}//End public void onEnable()
 	
 	@Override

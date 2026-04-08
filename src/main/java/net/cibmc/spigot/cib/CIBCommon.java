@@ -85,7 +85,7 @@ public class CIBCommon {
 					Block b = datnum.getWorld().getBlockAt(datnum.getBlockX() + i, datnum.getBlockY() + j,datnum.getBlockZ() + k);
 					BlockData bd = b.getState().getBlock().getBlockData();
 					if(bd instanceof Rail){
-						Rail r = (Rail)b;
+						Rail r = (Rail)bd;
 						switch(r.getShape()) {
 							case ASCENDING_NORTH:
 							case ASCENDING_SOUTH:
