@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group = 'net.cibmc.spigot.cib'
+version = '1.3_API1.21.11'
+
+description = """"""
+
+sourceCompatibility = 21
+targetCompatibility = 21
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+repositories {
+     maven { url "https://repo.papermc.io/repository/maven-public/" }
+     maven { url "https://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    compileOnly group: 'io.papermc.paper', name: 'paper-api', version:'1.21.11-R0.1-SNAPSHOT'
+}
+

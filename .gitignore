@@ -19,8 +19,8 @@
 Thumbs.db
 .DS_Store
 
-# Maven
-target
+# gradle
+.gradle
 
 # Build
 out
