@@ -35,6 +35,10 @@ public class EL_CIBSign implements Listener{
 	
 	@EventHandler
 	public void onSignChange(SignChangeEvent event){
+		BlockState bs = event.getBlock().getState();
+		if (!(bs instanceof Sign)) return;
+		Sign s = (Sign)bs;
+
 		if(!event.getLine(0).equalsIgnoreCase(CIBCommon.CIB_SIGN_STRING)) return;
 		if(!event.getPlayer().hasPermission("cib.stationbuilder")){
 			event.getBlock().breakNaturally();
@@ -63,6 +67,9 @@ public class EL_CIBSign implements Listener{
 		}else{
 			event.setLine(3, ChatColor.GREEN + "Station");
 		}
+
+		s.setWaxed(true);
+
 		event.getPlayer().sendMessage(ChatColor.GREEN + "[CIB] You placed CIB Minecart Station Sign!");
 	}
 	
@@ -93,7 +100,11 @@ public class EL_CIBSign implements Listener{
 
 		Sign s = (Sign)bs;
 		if(!s.getLine(0).equals(CIBCommon.CIB_SIGN_STRING)) return;
-        event.setCancelled(true);
+
+		if (!s.isWaxed()) {
+        	event.setCancelled(true);
+			s.setWaxed(true);
+		}
 		if(event.getPlayer().getVehicle() != null) return;
 		
 		Block mayBeRailBlock = event.getClickedBlock().getLocation().getBlock().getLocation().add(0, -2, 0).getBlock();

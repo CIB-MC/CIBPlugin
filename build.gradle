@@ -1,23 +1,46 @@
 plugins {
-    id 'java'
+  id 'java'
+  id("io.papermc.paperweight.userdev") version "2.0.0-beta.21"
+  id("xyz.jpenilla.run-paper") version "3.0.2"
 }
 
 group = 'net.cibmc.spigot.cib'
-version = '1.3_API1.21.11'
+version = '1.4_api26.3'
 
-description = """"""
-
-sourceCompatibility = 21
-targetCompatibility = 21
-tasks.withType(JavaCompile) {
-	options.encoding = 'UTF-8'
+java {
+  // Configure the java toolchain. This allows gradle to auto-provision JDK 25 on systems that only have JDK 17 installed for example.
+  toolchain.languageVersion = JavaLanguageVersion.of(25)
 }
 
-repositories {
-     maven { url "https://repo.papermc.io/repository/maven-public/" }
-     maven { url "https://repo.maven.apache.org/maven2" }
+// For 1.20.4 or below, or when you care about supporting Spigot on >=1.20.5:
+/*
+paperweight.reobfArtifactConfiguration = io.papermc.paperweight.userdev.ReobfArtifactConfiguration.REOBF_PRODUCTION
+
+tasks.assemble {
+  dependsOn(tasks.reobfJar)
 }
+ */
+
 dependencies {
-    compileOnly group: 'io.papermc.paper', name: 'paper-api', version:'1.21.11-R0.1-SNAPSHOT'
+  paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:26.3.build.195-stable")
 }
 
+tasks {
+  compileJava {
+    // Set the release flag. This configures what version bytecode the compiler will emit, as well as what JDK APIs are usable.
+    // See https://openjdk.java.net/jeps/247 for more information.
+    options.release = 25
+  }
+  javadoc {
+    options.encoding = java.nio.charset.StandardCharsets.UTF_8.name()
+  }
+
+  // Only relevant for 1.20.4 or below, or when you care about supporting Spigot on >=1.20.5:
+  /*
+  reobfJar {
+    // This is an example of how you might change the output location for reobfJar. It's recommended not to do this
+    // for a variety of reasons, however it's asked frequently enough that an example of how to do it is included here.
+    outputJar = layout.buildDirectory.file("libs/PaperweightTestPlugin-${project.version}.jar")
+  }
+   */
+}
